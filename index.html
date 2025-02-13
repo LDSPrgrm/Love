@@ -3,8 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/styles/styles.css" />
+    <title>Love Diary</title>
+    <style>
+      body {
+        font-family: serif;
+      }
+    </style>
   </head>
-  <body></body>
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-yellow-100 px-6"
+  >
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
+      <div
+        class="p-6 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer flex flex-col items-center justify-center"
+        onclick="goToPage('valentines')"
+      >
+        <img
+          src="src/img/valentines/logo.webp"
+          alt="Valentine's Day"
+          class="mb-2 rounded-full object-cover"
+        />
+        <p class="text-center">Valentine's Day</p>
+      </div>
+      <div
+        class="p-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer flex flex-col items-center justify-center"
+        onclick="goToPage('birthday')"
+      >
+        <img
+          src="src/img/birthday/logo.webp"
+          alt="Birthday"
+          class="mb-2 rounded-full object-cover"
+        />
+        <p class="text-center">Birthday</p>
+      </div>
+      <div
+        class="p-6 bg-pink-500 text-white rounded-lg hover:bg-pink-600 cursor-pointer flex flex-col items-center justify-center"
+        onclick="goToPage('anniversary')"
+      >
+        <img
+          src="src/img/anniversary/logo.webp"
+          alt="Anniversary"
+          class="mb-2 rounded-full object-cover"
+        />
+        <p class="text-center">Anniversary</p>
+      </div>
+      <div
+        class="p-6 bg-green-500 text-white rounded-lg hover:bg-green-600 cursor-pointer flex flex-col items-center justify-center"
+        onclick="goToPage('christmas')"
+      >
+        <img
+          src="src/img/christmas/logo.webp"
+          alt="Christmas"
+          class="mb-2 rounded-full object-cover"
+        />
+        <p class="text-center">Christmas</p>
+      </div>
+    </div>
+
+    <script>
+      function goToPage(event) {
+        window.location.href = `src/pages/event.html?event=${event}`;
+      }
+    </script>
+  </body>
 </html>

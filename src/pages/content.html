@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <style>
+      #eventCard {
+        font-family: "Cookie", serif;
+      }
+
+      #eventTitle {
+        font-size: xxx-large;
+      }
+
+      #eventContent {
+        font-size: xx-large;
+      }
+
+      #backButton,
+      #yearTitle {
+        font-size: x-large;
+      }
+    </style>
+    <script src="../scripts/data.js"></script>
+  </head>
+  <body
+    id="pageBody"
+    class="flex flex-col items-center justify-center min-h-screen px-6 text-gray-800 transition-all duration-300"
+  >
+    <div
+      id="eventCard"
+      class="bg-white shadow-lg rounded-2xl p-8 m-4 max-w-6xl text-center border"
+    >
+      <h1 id="eventTitle" class="text-4xl font-bold mb-2"></h1>
+      <h2 id="yearTitle" class="text-lg font-semibold text-gray-600 mb-4"></h2>
+
+      <p id="eventContent" class="text-lg italic mt-6"></p>
+
+      <img
+        id="eventImage"
+        src=""
+        alt="Event Image"
+        class="rounded-lg shadow-lg hidden w-full max-h-72 object-cover"
+      />
+
+      <a
+        href="../../index.html"
+        id="backButton"
+        class="inline-block text-white font-bold px-6 py-3 rounded-lg hover:opacity-80 my-4 transition-all"
+      >
+        Go Back
+      </a>
+    </div>
+
+    <script>
+      function getParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          event: params.get("event")
+            ? params.get("event").charAt(0).toUpperCase() +
+              params.get("event").slice(1).toLowerCase()
+            : "",
+          year: params.get("year"),
+        };
+      }
+
+      function getOrdinalSuffix(number) {
+        if (number % 100 >= 11 && number % 100 <= 13) {
+          return number + "th"; // Special case for 11th, 12th, 13th
+        }
+        switch (number % 10) {
+          case 1:
+            return number + "st";
+          case 2:
+            return number + "nd";
+          case 3:
+            return number + "rd";
+          default:
+            return number + "th";
+        }
+      }
+
+      function getEventGreeting(event, year) {
+        switch (event) {
+          case "Valentines":
+            return "Happy Valentine's Day! ❤️";
+          case "Birthday":
+            const age = year - 2005;
+            return `Happy ${getOrdinalSuffix(age)} Birthday! 🎂`;
+          case "Anniversary":
+            const anniversaryNumber = year - 2023;
+            return `Happy ${getOrdinalSuffix(
+              anniversaryNumber
+            )} Anniversary! 💕`;
+          case "Christmas":
+            return "Merry Christmas! 🎄";
+          default:
+            return event;
+        }
+      }
+
+      function setThemeColor(event) {
+        const colors = {
+          Valentines: "red-500",
+          Birthday: "blue-500",
+          Anniversary: "pink-500",
+          Christmas: "green-500",
+        };
+
+        const bgColor = colors[event] || "gray-500"; // Default to gray
+        const textColor = `text-${bgColor}`;
+        const borderColor = `border-${bgColor}`;
+        const btnColor = `bg-${bgColor}`;
+
+        document.body.classList.add(`bg-${bgColor}/10`);
+        document.getElementById("eventTitle").classList.add(textColor);
+        document.getElementById("eventCard").classList.add(borderColor);
+        document.getElementById("backButton").classList.add(btnColor);
+      }
+
+      function updatePageContent() {
+        const { event, year } = getParams();
+        document.getElementById("eventTitle").textContent = getEventGreeting(
+          event,
+          year
+        );
+        document.getElementById("yearTitle").textContent = `Year: ${year}`;
+
+        setThemeColor(event);
+
+        if (
+          eventData[year] &&
+          eventData[year][event] &&
+          eventData[year][event]["content"]
+        ) {
+          const eventInfo = eventData[year][event];
+
+          document.getElementById("eventContent").innerHTML =
+            eventData[year][event].content;
+
+          const img = document.getElementById("eventImage");
+          img.src = eventInfo.image;
+          <!-- img.classList.remove("hidden"); -->
+        } else {
+          document.getElementById("eventContent").textContent =
+            "No details available for this event and year yet.";
+        }
+      }
+
+      updatePageContent();
+    </script>
+  </body>
+</html>

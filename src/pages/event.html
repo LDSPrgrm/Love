@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine's Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <style>
+      body {
+        font-family: serif;
+      }
+    </style>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-6"
+  >
+    <h1 id="eventTitle" class="text-4xl font-bold mb-2"></h1>
+
+    <div
+      id="yearContainer"
+      class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 w-full p-4"
+    ></div>
+
+    <a
+      href="../../index.html"
+      id="backButton"
+      class="inline-block text-white font-bold px-6 py-3 rounded-lg hover:opacity-80 m-6 transition-all bg-gray-500"
+    >
+      Go Back
+    </a>
+
+    <script src="../scripts/scripts.js"></script>
+    <script>
+      function getParams() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("event")
+          ? params.get("event").charAt(0).toUpperCase() +
+              params.get("event").slice(1).toLowerCase()
+          : "";
+      }
+
+      function getEventGreeting(event) {
+        switch (event) {
+          case "Valentines":
+            return "Happy Valentine's Day! ❤️";
+          case "Birthday":
+            return `Happy Birthday! 🎂`;
+          case "Anniversary":
+            return `Happy Anniversary! 💕`;
+          case "Christmas":
+            return "Merry Christmas! 🎄";
+          default:
+            return event;
+        }
+      }
+
+      function setThemeColor(event) {
+        const colors = {
+          Valentines: "red-500",
+          Birthday: "blue-500",
+          Anniversary: "pink-500",
+          Christmas: "green-500",
+        };
+
+        const bgColor = colors[event] || "gray-500"; // Default to gray
+        const textColor = `text-${bgColor}`;
+        const borderColor = `border-${bgColor}`;
+        const btnColor = `bg-${bgColor}`;
+
+        document.body.classList.add(`bg-${bgColor}/10`);
+        document.getElementById("eventTitle").classList.add(textColor);
+        document.getElementById("backButton").classList.add(btnColor);
+      }
+
+      const event = getParams();
+      document.getElementById("eventTitle").textContent =
+        getEventGreeting(event);
+
+      setThemeColor(event);
+    </script>
+  </body>
+</html>
